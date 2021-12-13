@@ -14,6 +14,10 @@ class AddressSerializer(ModelSerializer):
 
 
 class ShopSerializer(ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        kwargs['partial'] = True
+        super(ShopSerializer, self).__init__(*args, **kwargs)
+
     class Meta:
         model = Shop
         fields = '__all__'
