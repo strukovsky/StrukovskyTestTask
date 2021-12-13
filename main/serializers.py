@@ -3,7 +3,7 @@ from rest_framework.relations import SlugRelatedField
 from .models import Shop, Address
 
 """
-Использую ModelSerializer
+Использую ModelSerializer, потому что его функциональности мне вполне достаточно
 """
 
 
