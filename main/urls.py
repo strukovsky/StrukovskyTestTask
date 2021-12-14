@@ -6,11 +6,19 @@ from .model_viewsets import (
 )
 from .viewsets import ShopViewSet, AddressViewSet
 """
-В model_viewsets лежат вьюсеты, которые создаются классом ModelViewSet
-Я их создавал для первой версии моего задания, но решил оставить на случай,
-если потребуется какой-то функционал, выходящий за рамки условия задания. 
+model_viewsets contains viewsets of ModelViewSets.
+These ones I created when I was doing the first version of app.
+I think they should be in final version of app because they provide extra functionality
+model_viewsets are located in URLs /model_shop/ and /model_address/
 
-Выполненное задание находится по URL /shop/* и /address/* соответственно
+Completed task is located by the following URLs:
+
+GET /shop/
+GET /address/{id}/shops/
+GET /shop/{id}/
+POST /address/
+POST /shop/
+PATCH /shop/{id}
 """
 router = DefaultRouter()
 router.register("shop", ShopViewSet, "shop")

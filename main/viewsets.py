@@ -10,14 +10,13 @@ from .serializers import ShopSerializer, AddressSerializer
 from .models import Shop, Address
 
 """
-Эти вьюсете в роутере имеют путь /shop/ и /address/. Они содержат
-все указанные в задании эндпойнты а потому, при проверке моего задания предпочтительны именно они.
+These viewsets provide actual functionality of requested app
 """
 
 
 class ShopViewSet(ViewSet):
     """
-    Вьюсет для магазина. Все эндпойнты — стандартные DRF эндпойнты
+    Shop viewset. All endpoints are default DRF methods
     """
 
     def list(self, request: Request) -> Response:
@@ -55,8 +54,7 @@ class ShopViewSet(ViewSet):
 
 class AddressViewSet(ViewSet):
     """
-    Вьюсет для адресов. Все стандартное, кроме мною добавленного
-    shops (его URL: /address/1/shops/), который возвращает магазины, принадлежащие адресу.
+    Address viewset. All methods are default DRF except shops
     """
 
     def list(self, request: Request) -> Response:
@@ -78,13 +76,7 @@ class AddressViewSet(ViewSet):
     @action(methods=['GET'], detail=True)
     def shops(self, request: Request, pk=None) -> Response:
         """
-        Найти магазины по заданному адресу
-        Созданный мною GET эндпоинт, URL которого выглядит так:
-        /address/1/shops
-        Вместо единицы может быть любой интересующий айди адреса, по которому нужно найти магазины
-        :param request: запрос
-        :param pk: айди адреса
-        :return: список магазинов по адресу
+        GET endpoint which receives address primary key and returns list of shops located there
         """
         queryset = Shop.objects.filter(address_id=pk)
         serializer = ShopSerializer(queryset, many=True)

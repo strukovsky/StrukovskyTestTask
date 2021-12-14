@@ -4,14 +4,11 @@ from .models import Shop, Address
 from .serializers import ShopSerializer, AddressSerializer
 
 """
-Эти вьюсеты были созданы мною в первой версии тестового задания, чтобы проверить,
-все ли корректно работает.
+These viewsets were created at the beginning of completing task.
+I've decided to make them presented in the final version of my app
+because they provide wide functionality which can be necessary in the future.
 
-По-хорошему, их надо было удалить, но я решил их оставить, просто на случай,
-если нужно будет выполнить что-то, чего не было в задании.
-Например, если нужно будет добавить магазин с датой last_changed, отличной от сегодняшней
-
-Эти вьюсеты в роутере имеют URL /model_shop/ и /model_address/ соответственно
+For example, if there's necessity of create Shop with not-null initial last_changed value
 """
 
 
