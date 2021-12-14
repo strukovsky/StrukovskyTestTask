@@ -1,0 +1,75 @@
+[
+    {
+        "model": "main.Address",
+        "pk": 1,
+        "fields": {
+            "street": "Yunosti",
+            "home": 15
+        }
+    },
+    {
+        "model": "main.Address",
+        "pk": 2,
+        "fields": {
+            "street": "Semenovskaya",
+            "home": 10
+        }
+    },
+    {
+        "model": "main.Address",
+        "pk": 3,
+        "fields": {
+            "street": "Hitrovskaya",
+            "home": 2
+        }
+    },
+    {
+        "model": "main.Shop",
+        "pk": 1,
+        "fields": {
+            "name": "Beautiful decor",
+            "address_id": 1
+        }
+    },
+    {
+        "model": "main.Shop",
+        "pk": 2,
+        "fields": {
+            "name": "Handsome outfit",
+            "address_id": 1
+        }
+    },
+    {
+        "model": "main.Shop",
+        "pk": 3,
+        "fields": {
+            "name": "Contemporary art",
+            "address_id": 1
+        }
+    }
+    ,
+    {
+        "model": "main.Shop",
+        "pk": 4,
+        "fields": {
+            "name": "Computers",
+            "address_id": 2
+        }
+    },
+    {
+        "model": "main.Shop",
+        "pk": 5,
+        "fields": {
+            "name": "Bookshelf",
+            "address_id": 2
+        }
+    },
+    {
+        "model": "main.Shop",
+        "pk": 6,
+        "fields": {
+            "name": "Keys and print",
+            "address_id": 3
+        }
+    }
+]
