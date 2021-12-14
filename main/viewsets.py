@@ -33,8 +33,9 @@ class ShopViewSet(ViewSet):
     def create(self, request: Request) -> Response:
         request_data = request.data
         address_id = request_data['address']
-        request_data['address'] = get_object_or_404(Address, pk=address_id)
-        shop = Shop(**request_data)
+        address = get_object_or_404(Address, pk=address_id)
+        name = request_data['name']
+        shop = Shop(address=address, name=name)
         shop.save()
         response_data = {
             "id": shop.id,
@@ -48,6 +49,7 @@ class ShopViewSet(ViewSet):
         address = data['address']
         shop.address = get_object_or_404(Address, pk=address)
         shop.last_changed = datetime.date.today()
+        shop.save()
         serializer = ShopSerializer(shop)
         return Response(serializer.data)
 
