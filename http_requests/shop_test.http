@@ -1,0 +1,26 @@
+GET http://localhost:8000/shop/
+
+###
+
+
+GET http://localhost:8000/shop/1
+
+###
+
+POST http://localhost:8000/shop/
+Content-Type: application/json
+
+{
+  "name": "Another shop1",
+  "address": 1
+}
+
+###
+
+PATCH http://localhost:8000/shop/1/
+Content-Type: application/json
+
+{
+  "address": 2
+}
+

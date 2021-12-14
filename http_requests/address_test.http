@@ -1,0 +1,21 @@
+GET localhost:8000/address/
+
+###
+
+GET localhost:8000/address/1/
+
+###
+
+POST localhost:8000/address/
+Content-Type: application/json
+
+{
+  "street": "Yunosti",
+  "home": 15
+}
+
+###
+
+GET localhost:8000/address/1/shops/
+
+###
