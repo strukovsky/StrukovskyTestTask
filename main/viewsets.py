@@ -16,7 +16,6 @@ from .models import Shop, Address
 
 
 class ShopViewSet(ViewSet):
-
     """
     Вьюсет для магазина. Все эндпойнты — стандартные DRF эндпойнты
     """
@@ -33,7 +32,10 @@ class ShopViewSet(ViewSet):
         return Response(serializer.data)
 
     def create(self, request: Request) -> Response:
-        shop = Shop(**request.data)
+        request_data = request.data
+        address_id = request_data['address']
+        request_data['address'] = get_object_or_404(Address, pk=address_id)
+        shop = Shop(**request_data)
         shop.save()
         response_data = {
             "id": shop.id,
@@ -52,7 +54,6 @@ class ShopViewSet(ViewSet):
 
 
 class AddressViewSet(ViewSet):
-
     """
     Вьюсет для адресов. Все стандартное, кроме мною добавленного
     shops (его URL: /address/1/shops/), который возвращает магазины, принадлежащие адресу.
