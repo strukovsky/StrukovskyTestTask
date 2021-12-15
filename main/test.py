@@ -140,10 +140,11 @@ class ShopTestCase(TestCase):
         request.data = {'address': 2}
         response = shop.partial_update(request=request, pk=1)
         self.assertEqual(200, response.status_code)
+        date_today = str(datetime.date.today())
         expected = {
             'id': 1,
             'name': 'Test shop',
-            'last_changed': '2021-12-14',
+            'last_changed': date_today,
             'address': 2
         }
         self.assertEqual(expected, dict(response.data))
@@ -153,4 +154,4 @@ class ShopTestCase(TestCase):
             request=request_validate_changes, pk=1)
         response_data = dict(response_validate_changes.data)
         last_changed = response_data['last_changed']
-        self.assertEqual(str(datetime.date.today()), last_changed)
+        self.assertEqual(date_today, last_changed)
