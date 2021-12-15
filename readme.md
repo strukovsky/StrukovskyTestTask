@@ -2,6 +2,17 @@
 
 This REST API application provides functionality of edit, watch shops, address and their relationships
 
+# Setup
+
+First of all, it is necessary to install dependencies marked in `requirements.txt`  
+`pip3 install -r requirements.txt`  
+The first thing (related to project itself) you have to do is migrate  
+`python3 manage.py migrate`  
+Then, you should populate database with data in fixture `data.json` located in `main/fixtures/`  
+`python3 manage.py loaddata data`  
+You can run tests with command  
+`python3 manage.py test`  
+All tests should run properly. Here you go!  
 # Entities
 
 ## Shop
