@@ -1,39 +1,22 @@
+from django.utils import timezone
+from datetime import date, datetime
 from rest_framework import response
 from rest_framework.test import APIRequestFactory
 from django.test import TestCase
 from .viewsets import ShopViewSet, AddressViewSet
 from .models import Shop, Address
-import datetime
+from rest_framework.settings import api_settings
 
 factory = APIRequestFactory()
 
 
-class ShopTestCase(TestCase):
+class AddressTestCase(TestCase):
     def setUp(self) -> None:
         address = Address.objects.create(street="Test", home=1)
         Address.objects.create(street="Another test", home=3)
         Shop.objects.create(address=address, name="Test shop")
         Shop.objects.create(address=address, name="Test shop 2")
         return super().setUp()
-
-    def test_get_all_shops(self):
-        shop = ShopViewSet()
-        request = factory.get('/shop/', format='json')
-        response = shop.list(request=request)
-        self.assertEqual(response.status_code, 200)
-        response_data = list(map(dict, response.data))
-        expected = [{
-            'id': 1,
-            'name': 'Test shop',
-            'last_changed': None,
-            'address': 1
-        }, {
-            'id': 2,
-            'name': 'Test shop 2',
-            'last_changed': None,
-            'address': 1
-        }]
-        self.assertEqual(expected, response_data)
 
     def test_get_all_addresses(self):
         address = AddressViewSet()
@@ -52,21 +35,7 @@ class ShopTestCase(TestCase):
         }]
         self.assertEqual(expected, response_data)
 
-    def test_get_shop_details(self):
-        shop = ShopViewSet()
-        request = factory.get('/shop/1/', format='json')
-        response = shop.retrieve(request=request, pk=1)
-        self.assertEqual(200, response.status_code)
-        response_data = dict(response.data)
-        expected = {
-            'id': 1,
-            'name': 'Test shop',
-            'last_changed': None,
-            'address': 1
-        }
-        self.assertEqual(expected, response_data)
-
-    def test_get_addrezs_details(self):
+    def test_get_address_details(self):
         address = AddressViewSet()
         request = factory.get('/address/1/', format='json')
         response = address.retrieve(request=request, pk=1)
@@ -93,6 +62,46 @@ class ShopTestCase(TestCase):
             'home': 15
         })
 
+    def test_get_shops_of_address(self):
+        address = AddressViewSet()
+        request = factory.get('/address/1/shops/')
+        response = address.shops(request=request, pk=1)
+        self.assertEqual(200, response.status_code)
+        actual = list(map(dict, response.data))
+        self.assertEqual(2, len(actual))
+        # self.assertEqual(expected, actual)
+
+
+class ShopTestCase(TestCase):
+    def setUp(self) -> None:
+        address = Address.objects.create(street="Test", home=1)
+        Address.objects.create(street="Another test", home=3)
+        Shop.objects.create(address=address, name="Test shop")
+        Shop.objects.create(address=address, name="Test shop 2")
+
+        return super().setUp()
+
+    def test_get_all_shops(self):
+        shop = ShopViewSet()
+        request = factory.get('/shop/', format='json')
+        response = shop.list(request=request)
+        self.assertEqual(response.status_code, 200)
+        response_data = list(map(dict, response.data))
+        self.assertEqual(2, len(response_data))
+
+    def test_get_shop_details(self):
+        shop = ShopViewSet()
+        request = factory.get('/shop/1/', format='json')
+        response = shop.retrieve(request=request, pk=1)
+        self.assertEqual(200, response.status_code)
+        response_data = dict(response.data)
+        shop_to_validate = Shop.objects.get(pk=1)
+        last_changed: datetime = shop_to_validate.last_changed
+        formatted_last_changed_with_tz = datetime.strftime(
+            last_changed, api_settings.DATETIME_FORMAT)
+        self.assertEqual(formatted_last_changed_with_tz,
+                         response_data.get('last_changed'))
+
     def test_create_new_shop(self):
         shop = ShopViewSet()
         request = factory.post('/shop/')
@@ -108,31 +117,14 @@ class ShopTestCase(TestCase):
         validate_response = shop.retrieve(validate_creating, pk=3)
         self.assertEqual(200, validate_response.status_code)
         response_data = dict(validate_response.data)
-        self.assertEqual({
+        expected = {
             'id': 3,
-            'last_changed': None,
             'name': 'Test added shop',
-            'address': 1
-        }, response_data)
-
-    def test_get_shops_of_address(self):
-        address = AddressViewSet()
-        request = factory.get('/address/1/shops/')
-        response = address.shops(request=request, pk=1)
-        self.assertEqual(200, response.status_code)
-        expected = [{
-            'id': 1,
-            'name': 'Test shop',
-            'last_changed': None,
-            'address': 1
-        }, {
-            'id': 2,
-            'name': 'Test shop 2',
-            'last_changed': None,
-            'address': 1
-        }]
-        actual = list(map(dict, response.data))
-        self.assertEqual(expected, actual)
+            'pretty_address': 'Test 1',
+            'last_changed':
+            datetime.now().strftime(api_settings.DATETIME_FORMAT)
+        }
+        self.assertEqual(expected, response_data)
 
     def test_change_shop_address(self):
         shop = ShopViewSet()
@@ -140,18 +132,13 @@ class ShopTestCase(TestCase):
         request.data = {'address': 2}
         response = shop.partial_update(request=request, pk=1)
         self.assertEqual(200, response.status_code)
-        date_today = str(datetime.date.today())
-        expected = {
-            'id': 1,
-            'name': 'Test shop',
-            'last_changed': date_today,
-            'address': 2
-        }
-        self.assertEqual(expected, dict(response.data))
+        # response received on request to change shop's data
+        changing_response = dict(response.data)
+        changing_timestamp = changing_response.get('last_changed')
 
         request_validate_changes = factory.get('/shop/1/')
         response_validate_changes = shop.retrieve(
             request=request_validate_changes, pk=1)
         response_data = dict(response_validate_changes.data)
-        last_changed = response_data['last_changed']
-        self.assertEqual(date_today, last_changed)
+        last_changed_from_validate = response_data['last_changed']
+        self.assertEqual(changing_timestamp, last_changed_from_validate)

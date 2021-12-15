@@ -28,7 +28,8 @@
         "pk": 1,
         "fields": {
             "name": "Beautiful decor",
-            "address_id": 1
+            "address_id": 1,
+            "last_changed": "2021-12-15 07:30:27.867447+00:00"
         }
     },
     {
@@ -36,7 +37,8 @@
         "pk": 2,
         "fields": {
             "name": "Handsome outfit",
-            "address_id": 1
+            "address_id": 1,
+            "last_changed": "2021-12-15 07:30:27.867447+00:00"
         }
     },
     {
@@ -44,16 +46,17 @@
         "pk": 3,
         "fields": {
             "name": "Contemporary art",
-            "address_id": 1
+            "address_id": 1,
+            "last_changed": "2021-12-15 07:30:27.867447+00:00"
         }
-    }
-    ,
+    },
     {
         "model": "main.Shop",
         "pk": 4,
         "fields": {
             "name": "Computers",
-            "address_id": 2
+            "address_id": 2,
+            "last_changed": "2021-12-15 07:30:27.867447+00:00"
         }
     },
     {
@@ -61,7 +64,8 @@
         "pk": 5,
         "fields": {
             "name": "Bookshelf",
-            "address_id": 2
+            "address_id": 2,
+            "last_changed": "2021-12-15 07:30:27.867447+00:00"
         }
     },
     {
@@ -69,7 +73,8 @@
         "pk": 6,
         "fields": {
             "name": "Keys and print",
-            "address_id": 3
+            "address_id": 3,
+            "last_changed": "2021-12-15 07:30:27.867447+00:00"
         }
     }
 ]

@@ -48,7 +48,7 @@ class ShopViewSet(ViewSet):
         data = request.data
         address = data['address']
         shop.address = get_object_or_404(Address, pk=address)
-        shop.last_changed = datetime.date.today()
+        shop.last_changed = datetime.datetime.now()
         shop.save()
         serializer = ShopSerializer(shop)
         return Response(serializer.data)

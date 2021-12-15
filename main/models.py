@@ -30,4 +30,4 @@ class Shop(models.Model):
     """
     name = models.CharField(max_length=DEFAULT_STRING_LENGTH)
     address = models.ForeignKey('main.Address', on_delete=models.CASCADE, related_name="shops")
-    last_changed = models.DateField(null=True)
+    last_changed = models.DateTimeField(auto_now_add=True)
