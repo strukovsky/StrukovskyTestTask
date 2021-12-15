@@ -1,6 +1,4 @@
-from django.utils import timezone
-from datetime import date, datetime
-from rest_framework import response
+from datetime import datetime
 from rest_framework.test import APIRequestFactory
 from django.test import TestCase
 from .viewsets import ShopViewSet, AddressViewSet

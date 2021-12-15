@@ -1,7 +1,5 @@
-from datetime import datetime, timezone
 from rest_framework.fields import DateTimeField, SerializerMethodField
 from rest_framework.serializers import ModelSerializer
-from rest_framework.relations import SlugRelatedField
 from .models import Shop, Address
 """
  ModelSerializer is used because I consider it quite suitable in this task
